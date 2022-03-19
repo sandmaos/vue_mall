@@ -1,24 +1,21 @@
-# app
 
-## Project setup
+## router setup
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+npm i vue-router@3
 ```
 
-### Compiles and minifies for production
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+npm i less-loader
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```
+npm i axios
+```
+
+```
+npm install --save nprogress
+```
+
+```
+npm install --save vuex@3
+```
