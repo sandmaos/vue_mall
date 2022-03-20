@@ -19,3 +19,12 @@ npm install --save nprogress
 ```
 npm install --save vuex@3
 ```
+
+```
+npm install mockjs
+```
+
+```
+npm install --save swiper@5
+```
+swiper-5.4.5

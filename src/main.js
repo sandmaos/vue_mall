@@ -4,11 +4,21 @@ import App from "./App.vue"
 import TypeNav from '@/components/TypeNav'
 Vue.component(TypeNav.name, TypeNav)
 
+//轮播图
+import Carousel from '@/components/Carousel'
+Vue.component(Carousel.name, Carousel)
+
 //引入路由器
 import router from "@/router"
 
 //引入vuex
 import store from '@/store'
+
+//引入mockServe
+import '@/mock/mockServe'
+
+//轮播图样式
+import 'swiper/css/swiper.css'
 
 //测试api请求
 // import { reqCategoryList } from "@/api"

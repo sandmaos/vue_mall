@@ -106,7 +106,11 @@ export default {
     changeIndex: throttle(function (index) {
       this.currentIndex = index;
     }, 50),
-
+    
+    //鼠标移入商品分类栏显示
+    enterShow() {
+      this.show = true;
+    },
     leaveShow() {
       this.currentIndex = -1;
       if (this.$route.path != "/home") this.show = false;
@@ -128,17 +132,12 @@ export default {
         }
 
         //判断如果跳转时有params参数，也要传
-        if(this.$route.params){
-          location.params=this.$route.params
+        if (this.$route.params) {
+          location.params = this.$route.params;
         }
         location.query = query;
         this.$router.push(location);
       }
-    },
-
-    //鼠标移入商品分类栏显示
-    enterShow() {
-      this.show = true;
     },
   },
 };
@@ -273,10 +272,9 @@ export default {
     .sort-enter-to {
       height: 461px;
     }
-    .sort-enter-active{
-      transition: all .3s linear;
+    .sort-enter-active {
+      transition: all 0.3s linear;
     }
-
   }
 }
 </style>

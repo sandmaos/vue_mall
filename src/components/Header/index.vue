@@ -36,7 +36,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
-            v-model="keyWord"
+            v-model="keyword"
           />
           <button
             @click="goSearch"
@@ -56,15 +56,15 @@ export default {
   name: "Header",
   data() {
     return {
-      keyWord: "",
+      keyword: "",
     };
   },
   methods: { 
     goSearch() {
-      // this.$router.push(`/search/${this.keyWord}`)
+      // this.$router.push(`/search/${this.keyword}`)
       var location = {
         name: "search",
-        params: { keyWord: this.keyWord || undefined },
+        params: { keyword: this.keyword || undefined },
       };
       //判断如果跳转时有query参数，也要传
       if (this.$route.query) {

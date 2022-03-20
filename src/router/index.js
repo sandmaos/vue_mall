@@ -10,12 +10,22 @@ import Search from '../pages/Search'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 
-var originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(location) {
-    return originalPush.call(this, location).catch(err=>err)
+let originalPush = VueRouter.prototype.push;
+// VueRouter.prototype.push = function push(location) {
+//     return originalPush.call(this, location).catch(err=>err)
+// }
+
+VueRouter.prototype.push = function (location, resolve, reject) {
+    if (resolve && reject) {
+        originalPush.call(this, location, resolve, reject)
+    }
+    else {
+        originalPush.call(this, location, () => { }, () => { })
+    }
 }
 
 
+// let originalReplace = VueRouter.prototype.replace
 // var originalReplace = VueRouter.prototype.replace
 // VueRouter.prototype.push = function (location, resolve, reject) {
 //     if (resolve && reject)
@@ -34,7 +44,7 @@ export default new VueRouter({
         },
         {
             name: 'search',
-            path: '/search/:keyWord?',
+            path: '/search/:keyword?',
             component: Search,
             meta: { showFooter: true },
         },
