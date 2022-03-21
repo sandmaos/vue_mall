@@ -8,6 +8,10 @@ Vue.component(TypeNav.name, TypeNav)
 import Carousel from '@/components/Carousel'
 Vue.component(Carousel.name, Carousel)
 
+//分页器
+import Pagination from '@/components/Pagination'
+Vue.component(Pagination.name, Pagination)
+
 //引入路由器
 import router from "@/router"
 
@@ -30,4 +34,8 @@ new Vue({
     render: h => h(App),
     router: router,
     store: store, //组件身上多了$store属性
+    beforeCreate() {
+        //配置全局事件总线
+        Vue.prototype.$bus=this
+    },
 }).$mount("#app");

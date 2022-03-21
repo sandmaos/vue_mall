@@ -73,6 +73,12 @@ export default {
       this.$router.push( location );
     },
   },
+  mounted() {
+    //去除关键字keyword
+    this.$bus.$on("clear",() => {
+      this.keyword=""
+    });
+  },
 };
 </script>
 
