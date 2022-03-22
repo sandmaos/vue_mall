@@ -4,11 +4,7 @@ import VueRouter from 'vue-router'
 
 //使用插件
 Vue.use(VueRouter);
-
-import Home from '../pages/Home'
-import Search from '../pages/Search'
-import Login from '../pages/Login'
-import Register from '../pages/Register'
+import routes from "./routes"
 
 let originalPush = VueRouter.prototype.push;
 // VueRouter.prototype.push = function push(location) {
@@ -36,32 +32,8 @@ VueRouter.prototype.push = function (location, resolve, reject) {
 
 //暴露
 export default new VueRouter({
-    routes: [
-        {
-            path: '/home',
-            component: Home,
-            meta: { showFooter: true },
-        },
-        {
-            name: 'search',
-            path: '/search/:keyword?',
-            component: Search,
-            meta: { showFooter: true },
-        },
-        {
-            path: '/login',
-            component: Login,
-            meta: { showFooter: false },
-        },
-        {
-            path: '/register',
-            component: Register,
-            meta: { showFooter: false },
-        },
-        //重定向，项目运行时导向首页
-        {
-            path: '*',
-            redirect: '/home',
-        },
-    ]
+    routes: routes,
+    scrollBehavior(to, from, savedPosition) {
+        return { y: 0 } //滚动条在最上方
+    }
 })

@@ -70,9 +70,12 @@
               <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"
-                      ><img :src="goods.defaultImg"
-                    /></a>
+                    
+                    <router-link :to="`/detail/${goods.id}`">
+                      <img :src="goods.defaultImg"/>
+                      </router-link>
+
+
                   </div>
                   <div class="price">
                     <strong>
@@ -143,7 +146,7 @@ export default {
         categoryName: "",
         keyword: "",
         order: "1:desc", //排序
-        pageNo: 2,
+        pageNo: 1,
         pageSize: 3, //每页展示多少结果
         props: [], //平台售卖属性
         trademark: "",
