@@ -27,4 +27,4 @@ npm install mockjs
 ```
 npm install --save swiper@5
 ```
-swiper-5.4.5
+
