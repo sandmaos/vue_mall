@@ -1,5 +1,5 @@
 //管理所有的api接口
-import requests from './request'
+import requests from './ajax'
 import mockRequests from './mockAjax'
 
 //三级联动接口 GET: /api/product/getBaseCategoryList
@@ -22,3 +22,12 @@ export const reqGetDetail = (id) => requests({
     url: `/item/${id}`, method: 'get'
 })
 
+//添加购物车或更新个数
+export const reqAddOrUpdateShopCart=(skuId,skuNum)=>requests({
+    url: `/cart/addToCart/${skuId}/${skuNum}`, method: 'post'
+})
+
+//获取购物车数据
+export const reqCartList=()=>requests({
+    url: `/cart/cartList`, method: 'get'
+})

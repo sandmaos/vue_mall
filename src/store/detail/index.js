@@ -1,7 +1,9 @@
-import { reqGetDetail } from "@/api"
+import { reqGetDetail, reqAddOrUpdateShopCart } from "@/api"
+import {getUUID} from "@/utils/uuid_token"
 //存储数据
 const state = {
-    goodsInfo: {}
+    goodsInfo: {},
+    uuid_token:getUUID(), //utils声明的
 }
 
 //处理action
@@ -13,7 +15,15 @@ const actions = {
         if (result.code === 200) {
             commit('GETDETAIL', result.data)
         }
-    }
+    },
+    //购物车
+    async addOrUpdateShopCart({ commit }, { skuId, skuNum }) {
+        const result = await reqAddOrUpdateShopCart(skuId, skuNum)
+        //服务器收到购物请求，并没有返回多余的数据，因此不用存储state
+        //直接将Promise结果返回dispatch处
+        if (result.code === 200) return 'Success'
+        else return Promise.reject(new Error('Fail'))
+    },
 }
 
 //修改state

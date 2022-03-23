@@ -7,6 +7,7 @@ Vue.use(Vuex)
 import home from './home'
 import search from './search'
 import detail from './detail'
+import shopcart from './shopcart'
 
 export default new Vuex.Store({
     //vuex仓库模块化管理
@@ -14,5 +15,6 @@ export default new Vuex.Store({
         home,
         search,
         detail,
+        shopcart,
     }
 })

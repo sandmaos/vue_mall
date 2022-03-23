@@ -4,6 +4,8 @@ import Search from '../pages/Search'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import Detail from '../pages/Detail'
+import AddCartSuccess from '../pages/AddCartSuccess'
+import ShopCart from '../pages/ShopCart'
 
 export default [
     {
@@ -30,6 +32,18 @@ export default [
     {
         path: '/detail/:skuid',
         component: Detail,
+        meta: { showFooter: true },
+    },
+    {
+        path: '/addcartsuccess',
+        name:'addcartsuccess',
+        component: AddCartSuccess,
+        meta: { showFooter: true },
+    },
+    {
+        path: '/shopcart',
+        name:'shopcart',
+        component: ShopCart,
         meta: { showFooter: true },
     },
     //重定向，项目运行时导向首页
