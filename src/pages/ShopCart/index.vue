@@ -11,37 +11,41 @@
         <div class="cart-th6">操作</div>
       </div>
       <div class="cart-body">
-        <ul class="cart-list">
+        <ul class="cart-list" v-for="cart in cartInfoList" :key="cart.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" />
+            <input
+              type="checkbox"
+              name="chk_list"
+              :checked="cart.isChecked === 1"
+              @change="updateChecked(cart,$event.target.checked)"
+            />
           </li>
           <li class="cart-list-con2">
-            <img src="./images/goods1.png" />
+            <img :src="cart.imgUrl" />
             <div class="item-msg">
-              米家（MIJIA） 小米小白智能摄像机增强版
-              1080p高清360度全景拍摄AI增强
+              {{ cart.skuName }}
             </div>
           </li>
-
           <li class="cart-list-con4">
-            <span class="price">399.00</span>
+            <span class="price">{{ cart.skuPrice }}</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
+            <a class="mins" @click="handler('minus', -1, cart)">-</a>
             <input
               autocomplete="off"
               type="text"
-              value="1"
               minnum="1"
               class="itxt"
+              :value="cart.skuNum"
+              @keyup.enter="handler('change', $event.target.value * 1, cart)"
             />
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a class="plus" @click="handler('add', 1, cart)">+</a>
           </li>
           <li class="cart-list-con6">
-            <span class="sum">399</span>
+            <span class="sum">{{ cart.skuNum * cart.skuPrice }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a class="sindelet" @click="deleteCart(cart)">删除</a>
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -50,7 +54,7 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" />
+        <input class="chooseAll" type="checkbox" :checked="isAllChecked" />
         <span>全选</span>
       </div>
       <div class="option">
@@ -62,7 +66,7 @@
         <div class="chosed">已选择 <span>0</span>件商品</div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
-          <i class="summoney">0</i>
+          <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
           <a class="sum-btn" href="###" target="_blank">结算</a>
@@ -73,15 +77,70 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import throttle from "lodash/throttle"
 export default {
   name: "ShopCart",
   methods: {
     getData() {
       this.$store.dispatch("getCartList");
     },
+    //修改某产品个数 节流处理
+    handler:throttle(async function(type, val, cart) {
+      if (type === "minus") val = cart.skuNum > 1 ? -1 : 0;
+      else if (type === "change") {
+        if (isNaN(val) || val < 1) val = 0;
+        else val = Math.floor(val) - cart.skuNum;
+      }
+      //派发action
+      try {
+        await this.$store.dispatch("addOrUpdateShopCart", {
+          skuId: cart.skuId,
+          skuNum: val,
+        });
+        this.getData();
+      } catch (error) {}
+    },3000),
+    //删除某产品
+    async deleteCart(cart) {
+      try {
+        await this.$store.dispatch("deleteCartById", cart.skuId);
+        //删除成功发请求获取新的数据
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+    //更新选中状态
+    async updateChecked(cart,checked) {
+      try {
+        await this.$store.dispatch("updateCheckedById", {skuId:cart.skuId,isChecked:checked===true?'1':'0'});
+        //删除成功发请求获取新的数据
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
   },
   mounted() {
     this.getData();
+  },
+  computed: {
+    ...mapGetters(["cartList"]),
+    cartInfoList() {
+      return this.cartList.cartInfoList || [];
+    },
+    //产品总价
+    totalPrice() {
+      var tot = 0;
+      this.cartInfoList.forEach((item) => {
+        tot += item.skuNum * item.skuPrice;
+      });
+      return tot;
+    },
+    isAllChecked() {
+      return this.cartInfoList.every((item) => item.isChecked === 1);
+    },
   },
 };
 </script>
