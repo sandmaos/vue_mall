@@ -19,8 +19,12 @@ const requests = axios.create({
 requests.interceptors.request.use((config)=>{
     //config配置对象，包含请求头
     if(store.state.detail.uuid_token){
-        //给请求头添加字段
+        //给请求头添加uuid字段
         config.headers.userTempId=store.state.detail.uuid_token
+    }
+    if(store.state.user.token){
+        //给请求头添加token字段,去让服务器根据token匹配
+        config.headers.token=store.state.user.token
     }
     nprogress.start()
     return config

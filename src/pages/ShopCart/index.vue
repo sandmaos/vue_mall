@@ -17,7 +17,7 @@
               type="checkbox"
               name="chk_list"
               :checked="cart.isChecked === 1"
-              @change="updateChecked(cart,$event.target.checked)"
+              @change="updateChecked(cart, $event.target.checked)"
             />
           </li>
           <li class="cart-list-con2">
@@ -54,11 +54,16 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllChecked" />
+        <input
+          class="chooseAll"
+          type="checkbox"
+          :checked="isAllChecked && cartInfoList.length > 0"
+          @click="updateAllChecked($event.target.checked)"
+        />
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deleteAllChecked">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -69,7 +74,7 @@
           <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <a class="sum-btn" @click="$router.push('/trade')">结算</a>
         </div>
       </div>
     </div>
@@ -78,7 +83,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import throttle from "lodash/throttle"
+import throttle from "lodash/throttle";
 export default {
   name: "ShopCart",
   methods: {
@@ -86,7 +91,7 @@ export default {
       this.$store.dispatch("getCartList");
     },
     //修改某产品个数 节流处理
-    handler:throttle(async function(type, val, cart) {
+    handler: throttle(async function (type, val, cart) {
       if (type === "minus") val = cart.skuNum > 1 ? -1 : 0;
       else if (type === "change") {
         if (isNaN(val) || val < 1) val = 0;
@@ -100,7 +105,7 @@ export default {
         });
         this.getData();
       } catch (error) {}
-    },3000),
+    }, 3000),
     //删除某产品
     async deleteCart(cart) {
       try {
@@ -112,10 +117,33 @@ export default {
       }
     },
     //更新选中状态
-    async updateChecked(cart,checked) {
+    async updateChecked(cart, checked) {
       try {
-        await this.$store.dispatch("updateCheckedById", {skuId:cart.skuId,isChecked:checked===true?'1':'0'});
+        await this.$store.dispatch("updateCheckedById", {
+          skuId: cart.skuId,
+          isChecked: checked === true ? "1" : "0",
+        });
         //删除成功发请求获取新的数据
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+    //删除全部选中的
+    async deleteAllChecked() {
+      try {
+        await this.$store.dispatch("deleteAllCheckedCart");
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+    async updateAllChecked(checked) {
+      try {
+        await this.$store.dispatch(
+          "updateAllCheckedCart",
+          checked === true ? "1" : "0"
+        );
         this.getData();
       } catch (error) {
         alert(error.message);

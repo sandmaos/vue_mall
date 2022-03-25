@@ -5,10 +5,15 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="username === undefined">
+            <!-- 未登录 -->
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
+          </p>
+          <p v-else>
+            <a>{{ username }}</a>
+            <a class="logout" @click="logout">退出</a>
           </p>
         </div>
         <div class="typeList">
@@ -59,7 +64,7 @@ export default {
       keyword: "",
     };
   },
-  methods: { 
+  methods: {
     goSearch() {
       // this.$router.push(`/search/${this.keyword}`)
       var location = {
@@ -70,13 +75,27 @@ export default {
       if (this.$route.query) {
         location.query = this.$route.query;
       }
-      this.$router.push( location );
+      this.$router.push(location);
+    },
+
+   async logout() {
+      try {
+        await this.$store.dispatch("getLogout");
+        this.$router.push('/home')
+      } catch (error) {
+        alert(error.message)
+      }
+    },
+  },
+  computed: {
+    username() {
+      return this.$store.state.user.userInfo.name;
     },
   },
   mounted() {
     //去除关键字keyword
-    this.$bus.$on("clear",() => {
-      this.keyword=""
+    this.$bus.$on("clear", () => {
+      this.keyword = "";
     });
   },
 };
@@ -101,7 +120,8 @@ export default {
           float: left;
           margin-right: 10px;
 
-          .register {
+          .register,
+          .logout {
             border-left: 1px solid #b3aeae;
             padding: 0 5px;
             margin-left: 5px;

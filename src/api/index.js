@@ -41,3 +41,38 @@ export const reqDeleteCartById=(skuId)=>requests({
 export const reqUpdateCheckedById=(skuId,isChecked)=>requests({
     url: `/cart/checkCart/${skuId}/${isChecked}`, method: 'get'
 })
+
+//获取手机验证码
+export const reqGetCode=(phone)=>requests({
+    url: `/user/passport/sendCode/${phone}`, method: 'get'
+})
+
+//注册提交
+export const reqRegister=(data)=>requests({
+    url: `/user/passport/register`,data:data, method: 'post'
+})
+
+//登录
+export const reqLogin=(data)=>requests({
+    url: `/user/passport/login`,data:data, method: 'post'
+})
+
+//登录成功后获取userInfo
+export const reqUserInfo=()=>requests({
+    url: `/user/passport/auth/getUserInfo`, method: 'get'
+})
+
+//退出
+export const reqLogout=()=>requests({
+    url: `/user/passport/logout`, method: 'get'
+})
+
+//获取用户地址信息
+export const reqUserAddress=()=>requests({
+    url: `/user/userAddress/auth/findUserAddressList`, method: 'get'
+})
+
+//获取购物车结算订单
+export const reqOrderInfo=()=>requests({
+    url: `/order/auth/trade`, method: 'get'
+})

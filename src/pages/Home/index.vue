@@ -36,7 +36,6 @@ export default {
   },
   computed: {
     ...mapState({floorList: (state) => state.home.floorList}),
-    
   },
   mounted() {
     //派发action获取floor组件数据

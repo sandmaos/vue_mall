@@ -1,4 +1,4 @@
-import { reqCartList, reqDeleteCartById,reqUpdateCheckedById } from "@/api"
+import { reqCartList, reqDeleteCartById, reqUpdateCheckedById } from "@/api"
 //存储数据
 const state = {
     cartList: [],
@@ -20,12 +20,34 @@ const actions = {
         } else Promise.reject(new Error('fail'))
     },
     //更新选中状态
-    async updateCheckedById({ commit }, {skuId, isChecked}) {
-        const result = await reqUpdateCheckedById(skuId,isChecked)
+    async updateCheckedById({ commit }, { skuId, isChecked }) {
+        const result = await reqUpdateCheckedById(skuId, isChecked)
         if (result.code === 200) {
             return 'success checked'
         } else Promise.reject(new Error('fail'))
     },
+    //删除全部勾选的产品
+    deleteAllCheckedCart({ dispatch, getters }) {
+        //context小仓库
+        var promiseAll = []
+        getters.cartList.cartInfoList.forEach(item => {
+            var promise = item.isChecked === 1 ? dispatch('deleteCartById', item.skuId) : ''
+            promiseAll.push(promise)
+        });
+        //都成功返回true，有失败都失败
+        return Promise.all(promiseAll)
+    },
+    //修改全部选中
+    updateAllCheckedCart({ dispatch, state }, isChecked) {
+        var promiseAll = []
+        state.cartList[0].cartInfoList.forEach(item => {
+            var promise = dispatch('updateCheckedById', { skuId: item.skuId, isChecked: isChecked })
+            promiseAll.push(promise)
+        });
+        //都成功返回true，有失败都失败
+        return Promise.all(promiseAll)
+    },
+
 }
 
 //修改state
