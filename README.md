@@ -28,3 +28,14 @@ npm install mockjs
 npm install --save swiper@5
 ```
 
+```
+npm install --save element-ui
+```
+
+```
+npm install babel-plugin-component -D
+```
+
+```
+npm i qrcode --save
+```
