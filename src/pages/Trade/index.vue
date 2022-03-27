@@ -145,6 +145,7 @@ export default {
         orderDetailList: this.orderInfo.detailArrayList,
       };
       const result = await this.$API.reqSubmitOrder(tradeNo, data);
+      console.log(result);
       if (result.code === 200) {
         this.orderId = result.data;
         this.$router.push(`/pay?orderId=${this.orderId}`)

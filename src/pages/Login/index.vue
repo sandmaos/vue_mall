@@ -89,9 +89,10 @@ export default {
     async login() {
       try {
         const { phone, password } = this;
-        if (phone !== "" && password !== ""){
+        if (phone !== "" && password !== "") {
           await this.$store.dispatch("userLogin", { phone, password });
-          this.$router.push('/home')        
+          var topath = this.$route.query.redirect || "/home";
+          this.$router.push(topath);
         }
       } catch (error) {
         alert(error.message);

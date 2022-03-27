@@ -35,6 +35,17 @@ import 'swiper/css/swiper.css'
 //统一引入所有的api
 import * as API from "@/api"
 
+import Vuelazyload from 'vue-lazyload'
+Vue.use(Vuelazyload,{
+
+})
+import myPlugins from '@/plugins/myPlugins'
+Vue.use(myPlugins,{
+    name:'os'
+})
+
+//引入表单校验插件
+import '@/plugins/validate'
 
 Vue.config.productionTip = false
 

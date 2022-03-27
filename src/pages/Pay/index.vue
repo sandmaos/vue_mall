@@ -155,10 +155,10 @@ export default {
           if (result.code === "200") {
             //清空定时器
             this.payStatus = result.code;
-            // clearInterval(this.timer);
-            // this.timer = null;
-            // this.$msgbox.close();
-            // this.$router.push("/paysuccess");
+            clearInterval(this.timer);
+            this.timer = null;
+            this.$msgbox.close();
+            this.$router.push("/paysuccess");
           }
         }, 3000);
       }

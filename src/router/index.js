@@ -62,8 +62,12 @@ router.beforeEach(async (to, from, next) => {
                 }
             }
         }
-    }else next()
-
+    } else {
+        //未登录不能去支付，交易，个人中心页面
+        if (to.path.indexOf('/trade') !== -1 || to.path.indexOf('/pay') !== -1 || to.path.indexOf('/center') !== -1)
+            next(`/login?redirect=${to.path}`) //未登录想去没法去的位置重定向
+        next()
+    }
 })
 //暴露
 export default router
